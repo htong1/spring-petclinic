@@ -63,6 +63,10 @@ public class Owner extends Person {
 	/*@NotEmpty*/
 	private String email;
 
+	@Column(name = "p_Contact")
+	/*@NotEmpty*/
+	private String pContact;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private Set<Pet> pets;
 
@@ -96,6 +100,15 @@ public class Owner extends Person {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	
+	public String getpContact() {
+		return this.pContact;
+	}
+
+	public void setpContact(String pContact) {
+		this.pContact = pContact;
 	}
 
 	protected Set<Pet> getPetsInternal() {
@@ -156,7 +169,7 @@ public class Owner extends Person {
 
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
 				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
-				.append("telephone", this.telephone).append("email", this.email).toString();
+				.append("telephone", this.telephone).append("email", this.email).append("pContact", this.pContact).toString();
 	}
 
 }

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -124,8 +125,26 @@ public class Owner extends Person {
 
 	public List<Pet> getPets() {
 		List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
+		/*for(Pet welp : sortedPets){
+			String name = welp.name;
+			welp.name = welp.name
+		}*/
+		/*for(int i = 0; i < sortedPets.size(); i++){
+			Pet now = sortedPets.get(i);
+			String current = now.getName();
+			current = current + ", ";
+		}*/
 		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedPets);
+	}
+
+	public String getPetString(){
+		List<Pet> sortedPets = new ArrayList<>(getPetsInternal());
+		List<String> name = new ArrayList<String>();
+		for(int i = 0; i < sortedPets.size(); i++){
+			name.add(i, sortedPets.get(i).getName());
+		}
+      return String.join(", ", name);
 	}
 
 	public void addPet(Pet pet) {

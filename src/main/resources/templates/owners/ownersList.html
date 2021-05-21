@@ -28,7 +28,7 @@
               <td th:text="${owner.telephone}"/>
               <td th:text="${owner.email}"/>
               <td th:text="${owner.pContact}"/>
-              <td><span th:each="pet : ${owner.pets}" th:text="${pet.name} "/></td>
+              <td th:text="${owner.getPetString}"/>
           </tr>
         </tbody>
     </table>

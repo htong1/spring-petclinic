@@ -60,6 +60,12 @@ public class Pet extends NamedEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 
+	@Column(name = "WEIGHT")
+	private int weight;
+
+	@Column(name = "COLOR")
+	private String color;
+
 	@Transient
 	private Set<Visit> visits = new LinkedHashSet<>();
 
@@ -85,6 +91,22 @@ public class Pet extends NamedEntity {
 
 	protected void setOwner(Owner owner) {
 		this.owner = owner;
+	}
+
+	public String getWeight() {
+		return Integer.toString(weight);
+	}
+
+	protected void setWeight(String weight) {
+		this.weight = Integer.parseInt(weight);
+	}
+
+	public String getColor() {
+		return this.color;
+	}
+
+	protected void setColor(String color) {
+		this.color = color;
 	}
 
 	protected Set<Visit> getVisitsInternal() {

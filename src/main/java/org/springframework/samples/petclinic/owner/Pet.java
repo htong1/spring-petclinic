@@ -97,15 +97,16 @@ public class Pet extends NamedEntity {
 		return Integer.toString(weight);
 	}
 
-	protected void setWeight(String weight) {
+	public void setWeight(String weight) {
 		this.weight = Integer.parseInt(weight);
+		//:)))))))))))))))
 	}
 
 	public String getColor() {
 		return this.color;
 	}
 
-	protected void setColor(String color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 

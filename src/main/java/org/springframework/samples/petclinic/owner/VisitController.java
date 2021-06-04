@@ -15,6 +15,10 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 import org.springframework.samples.petclinic.visit.Visit;
 import org.springframework.samples.petclinic.visit.VisitRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +45,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 class VisitController {
 
+	private static final String VIEWS_VISITS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdateVisitForm";
+	
 	private final VisitRepository visits;
 
 	private final PetRepository pets;
@@ -89,4 +96,34 @@ class VisitController {
 		}
 	}
 
+	@GetMapping("/owners/{ownerId}/pets/{petId}/{visitDate}/{visitId}/edit")
+	public String initUpdateForm(@PathVariable("petId") int petId, @PathVariable("visitDate") String visitDate, ModelMap model) {
+		List<Visit> visits = this.visits.findByPetId(petId);
+		Visit vis = visits.get(0);
+		for(int i = 0; i < visits.size(); i++){
+			LocalDate date = visits.get(i).getDate();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String newdate = date.format(formatter);
+			if(visits.size() == 1){
+				vis = visits.get(0);
+			} else if(visitDate.equals(newdate)){
+                vis = visits.get(i);
+			}
+			i++;
+		}
+		model.put("visit", vis);
+		return VIEWS_VISITS_CREATE_OR_UPDATE_FORM;
+	}
+
+	@PostMapping("/owners/{ownerId}/pets/{petId}/{visitDate}/{visitId}/edit")
+	public String processUpdateForm(@PathVariable("visitId") int visitId, @Valid Visit vis, BindingResult result, Pet pet, ModelMap model) {
+		if (result.hasErrors()) {
+			return VIEWS_VISITS_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			vis.setId(visitId);
+			this.visits.save(vis);
+			return "redirect:/owners/{ownerId}";
+		}
+	}
 }

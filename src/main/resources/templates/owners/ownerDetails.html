@@ -72,12 +72,14 @@
                 <th>Description</th>
                 <th>Status</th>
                 <th>Complete Date</th>
+                <th>Update Visit</th>
               </tr>
             </thead>
             <tr th:each="visit : ${pet.visits}">
               <td th:text="${#temporals.format(visit.date, 'yyyy-MM-dd')}"></td>
               <td th:text="${visit?.description}"></td>
               <td th:text="${visit?.status}"></td>
+              <td><a th:href="@{{ownerId}/pets/{petId}/{visitDate}/{visitId}/edit(visitId=${visit.id},ownerId=${owner.id},petId=${pet.id},visitDate=${#temporals.format(visit.date, 'yyyy-MM-dd')})}">Update Status</a></td>
             </tr>
             <tr>
               <td><a
